@@ -56,7 +56,9 @@ function App() {
     const handleLoadMore = () => setPage(prev => prev + 1)
 
     return (
-        <>
+        <div className="container">
+            <h1 className="title">Image Search App</h1>
+
             <SearchBar onSubmit={handleSearchSubmit} />
 
             {error && <ErrorMessage message={error} />}
@@ -78,8 +80,9 @@ function App() {
             />
 
             <Toaster position="top-right" />
-        </>
+        </div>
     )
+
 }
 
 export default App
