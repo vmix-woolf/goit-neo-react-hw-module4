@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Toaster } from 'react-hot-toast'
 import SearchBar from './components/SearchBar/SearchBar'
+import ImageGallery from './components/ImageGallery/ImageGallery'
+import ImageModal from './components/ImageModal/ImageModal'
 import { searchImages } from './api'
 
 function App() {
@@ -9,14 +11,16 @@ function App() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
+    const [selectedImage, setSelectedImage] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
     const handleSearchSubmit = newQuery => {
         setQuery(newQuery)
-        setImages([]) // очищаємо попередні результати
+        setImages([])
     }
 
     useEffect(() => {
         if (!query) return
-
         const fetchImages = async () => {
             try {
                 setIsLoading(true)
@@ -29,29 +33,39 @@ function App() {
                 setIsLoading(false)
             }
         }
-
         fetchImages()
     }, [query])
+
+    const handleImageClick = image => {
+        setSelectedImage(image)
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        setSelectedImage(null)
+    }
 
     return (
         <>
             <SearchBar onSubmit={handleSearchSubmit} />
+
             {isLoading && <p style={{ padding: 16 }}>Завантаження...</p>}
             {error && <p style={{ padding: 16, color: 'red' }}>{error}</p>}
+
             {images.length > 0 && (
-                <ul style={{ padding: 16 }}>
-                    {images.map(img => (
-                        <li key={img.id}>
-                            <img src={img.urls.small} alt={img.alt_description} width="200" />
-                        </li>
-                    ))}
-                </ul>
+                <ImageGallery images={images} onImageClick={handleImageClick} />
             )}
+
+            <ImageModal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                image={selectedImage}
+            />
+
             <Toaster position="top-right" />
         </>
     )
 }
 
 export default App
-
-
