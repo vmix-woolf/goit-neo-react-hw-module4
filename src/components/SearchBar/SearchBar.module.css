@@ -1,0 +1,16 @@
+.header {
+
+}
+
+.form {
+    display: flex;
+    gap: 8px;
+}
+
+.input {
+    flex: 1;
+}
+
+.button {
+
+}
