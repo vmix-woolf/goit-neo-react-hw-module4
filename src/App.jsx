@@ -1,7 +1,7 @@
 function App() {
     return (
         <div className="container">
-            <h1>Project start</h1>
+            <h1>Image Search App</h1>
         </div>
     )
 }
