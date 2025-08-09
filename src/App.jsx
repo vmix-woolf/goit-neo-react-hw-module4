@@ -5,6 +5,7 @@ import ImageGallery from './components/ImageGallery/ImageGallery'
 import ImageModal from './components/ImageModal/ImageModal'
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn'
 import Loader from './components/Loader/Loader'
+import ErrorMessage from './components/ErrorMessage/ErrorMessage'
 import { searchImages } from './api'
 
 function App() {
@@ -58,12 +59,12 @@ function App() {
         <>
             <SearchBar onSubmit={handleSearchSubmit} />
 
-            {error && <p style={{ padding: 16, color: 'red' }}>{error}</p>}
+            {error && <ErrorMessage message={error} />}
 
             {images.length > 0 && (
                 <>
                     <ImageGallery images={images} onImageClick={handleImageClick} />
-                    {isLoading && <Loader />}  {/* 🔹 тепер індикатор під галереєю */}
+                    {isLoading && <Loader />}
                     {page < totalPages && !isLoading && (
                         <LoadMoreBtn onClick={handleLoadMore} />
                     )}
